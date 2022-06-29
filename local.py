@@ -9,15 +9,29 @@ import math
 # https://www.joinquant.com/help/api/help#JQData:JQData
 
 # aa 为你自己的帐号， bb 为你自己的密码
-jq.auth('aa','bb')
+jq.auth('15114633778','S4636f263f8')
 
 # http://fund.eastmoney.com/ETFN_jzzzl.html
 stock_pool = [
-    '159915.XSHE', # 易方达创业板ETF
-    '510300.XSHG', # 华泰柏瑞沪深300ETF
-    '510500.XSHG', # 南方中证500ETF
+    # '159915.XSHE', # 易方达创业板ETF
+    # '510300.XSHG', # 华泰柏瑞沪深300ETF012148
+    # '510500.XSHG', # 南方中证500ETF
+    # '012148.OF', # 国投瑞银产业趋势混合A
+    '002594', # 比亚迪
+    '601012', #隆基
+    '000683', # 远兴能源
+    '300750', # 宁德时代
+    '000100', # TCL
+    '603987', # 康德莱
+    '002192', # 融捷股份
+    '600298', # 安琪酵母
 ]
-
+# print('#' * 64)
+# print("#" * 30 + "候选" + "#" * 30)
+stock_pool = jq.normalize_code(stock_pool)
+# for stock in stock_pool:
+#     display_name = jq.get_security_info(stock).display_name
+#     print(display_name)
 # 动量轮动参数
 stock_num = 1           # 买入评分最高的前 stock_num 只股票
 momentum_day = 29       # 最新动量参考最近 momentum_day 的
@@ -40,7 +54,7 @@ def get_rank(stock_pool):
         current_dt = time.strftime("%Y-%m-%d", time.localtime())
         current_dt = datetime.strptime(current_dt, '%Y-%m-%d')
         previous_date  = current_dt - timedelta(days = day)
-        data = jq.get_price(stock, end_date = previous_date, count = momentum_day, frequency='daily', fields=['close'])
+        data = jq.get_price(stock, end_date = previous_date, count = momentum_day, frequency='daily', fields=['open','close','high','low','volume','money'])
         # 收盘价
         y = data['log'] = np.log(data.close)
         # 分析的数据个数（天）
